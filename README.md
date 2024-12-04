@@ -2,6 +2,13 @@
 
 利用指定截屏保存路径的方法，实现在 wsl2 编辑 .tex 文件时便利地插入图片。
 
+## Build
+
+```bash
+npm install -g vsce
+vsce package
+```
+
 ## Features
 
 使用 Ctrl + Alt + P 的快捷键插入图片。首次使用该插件，必须在插件设置中指定你的截屏图片保存路径。
