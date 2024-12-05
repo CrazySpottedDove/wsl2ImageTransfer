@@ -74,7 +74,7 @@ function activate(context) {
             if (mvFlag) {
                 if (os.platform() === 'win32') {
                     // Windows 环境中使用 fs.renameSync 进行移动
-                    fs.renameSync(sourcePath, destinationPath);
+                    execSync(`move "${sourcePath}" "${destinationPath}"`);
                 } else {
                     // 非 Windows 环境中使用 mv 命令
                     execSync(`mv "${sourcePath}" "${destinationPath}"`);
@@ -82,7 +82,7 @@ function activate(context) {
             } else {
                 if (os.platform() === 'win32') {
                     // Windows 环境中使用 fs.copyFileSync 进行复制
-                    fs.copyFileSync(sourcePath, destinationPath);
+                    execSync(`copy "${sourcePath}" "${destinationPath}"`);
                 } else {
                     // 非 Windows 环境中使用 cp 命令
                     execSync(`cp "${sourcePath}" "${destinationPath}"`);

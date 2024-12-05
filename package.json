@@ -3,7 +3,7 @@
     "name": "wsl2ImageTransfer",
     "displayName": "wsl2ImageTransfer",
     "description": "enable image paste from windows to wsl2 in vscode editor",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "engines": {
         "vscode": "^1.95.0"
     },
