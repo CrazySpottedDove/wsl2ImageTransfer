@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const vscode = require('vscode');
 const fs = require('fs');
 const path = require('path');
-
+const os = require('os');
 function activate(context) {
     const config = vscode.workspace.getConfiguration('wsl2ImageTransfer');
     let screenshotDir = config.get('screenshotDir');
@@ -23,14 +23,24 @@ function activate(context) {
     if (!targetDir.endsWith('/')) {
         targetDir += '/';
     }
-    if(!relativeTargetDir.endsWith('/')) {
+    if (!relativeTargetDir.endsWith('/')) {
         relativeTargetDir += '/';
     }
-
-    // 处理 screenshotDir，确保它是一个 WSL2 可以访问的路径
-    screenshotDir = screenshotDir.replace(/^([A-Za-z]):/, (match, p1) => {
-        return `/mnt/${p1.toLowerCase()}`;
-    }).replace(/\\/g, '/');
+    const platform = os.platform();
+    switch (platform) {
+        case 'win32':
+            // 处理 screenshotDir，确保它是一个 Windows 可以访问的路径
+            screenshotDir = screenshotDir.replace(/\/mnt\/([a-z])\//, (match, p1) => `${p1.toUpperCase()}:\\`).replace(/\//g, '\\');
+            break;
+        case 'linux':
+            // 处理 screenshotDir，确保它是一个 WSL2 可以访问的路径
+            screenshotDir = screenshotDir.replace(/^([A-Za-z]):/, (match, p1) => {
+                return `/mnt/${p1.toLowerCase()}`;
+            }).replace(/\\/g, '/');
+            break;
+        default:
+            break;
+    }
 
     const disposable = vscode.commands.registerCommand('wsl2ImageTransfer.transferImage', function () {
         // 获取 screenshotDir 中创建时间最迟的图片
@@ -61,11 +71,22 @@ function activate(context) {
                 fs.mkdirSync(targetDir, { recursive: true });
             }
 
-            // 使用 execSync 调用命令行工具进行文件移动或复制
             if (mvFlag) {
-                execSync(`mv "${sourcePath}" "${destinationPath}"`);
+                if (os.platform() === 'win32') {
+                    // Windows 环境中使用 fs.renameSync 进行移动
+                    fs.renameSync(sourcePath, destinationPath);
+                } else {
+                    // 非 Windows 环境中使用 mv 命令
+                    execSync(`mv "${sourcePath}" "${destinationPath}"`);
+                }
             } else {
-                execSync(`cp "${sourcePath}" "${destinationPath}"`);
+                if (os.platform() === 'win32') {
+                    // Windows 环境中使用 fs.copyFileSync 进行复制
+                    fs.copyFileSync(sourcePath, destinationPath);
+                } else {
+                    // 非 Windows 环境中使用 cp 命令
+                    execSync(`cp "${sourcePath}" "${destinationPath}"`);
+                }
             }
 
             const editor = vscode.window.activeTextEditor;

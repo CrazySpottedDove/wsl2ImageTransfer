@@ -1,73 +1,79 @@
 {
-  "name": "wsl2ImageTransfer",
-  "displayName": "wsl2ImageTransfer",
-  "description": "enable image paste from windows to wsl2 in vscode editor",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.95.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [
-    "onCommand:wsl2ImageTransfer.transferImage"
-  ],
-  "main": "./extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "wsl2ImageTransfer.transferImage",
-        "title": "Transfer Image"
-      }
+    "publisher": "CrazySpottedDove",
+    "name": "wsl2ImageTransfer",
+    "displayName": "wsl2ImageTransfer",
+    "description": "enable image paste from windows to wsl2 in vscode editor",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.95.0"
+    },
+    "categories": [
+        "Other"
     ],
-    "keybindings": [
-      {
-        "command": "wsl2ImageTransfer.transferImage",
-        "key": "Ctrl+Alt+P",
-        "when": "editorTextFocus"
-      }
+    "icon": "icon.png",
+    "activationEvents": [
+        "onCommand:wsl2ImageTransfer.transferImage"
     ],
-    "configuration": {
-      "type": "object",
-      "properties": {
-        "wsl2ImageTransfer.screenshotDir": {
-          "type": "string",
-          "default": "C:/Users/<YourUsername>/Pictures/Screenshots",
-          "description": "你的 windows 主机的截图保存目录\n默认为 C:/Users/<YourUsername>/Pictures/Screenshots"
-        },
-        "wsl2ImageTransfer.targetDir": {
-          "type": "string",
-          "default": "figures/",
-          "description": "将要黏贴的图片在当前目录中的保存路径\n默认为 figures/"
-        },
-        "wsl2ImageTransfer.insertContent": {
-          "type": "string",
-          "default": "\\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.9\\textwidth]{${filePath}}\n\\caption{}\n\\end{figure}",
-          "description": "将会在你的编辑器中插入的内容\n默认为 \\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.9\\textwidth]{${filePath}}\n\\caption{}\n\\end{figure}"
-        },
-        "wsl2ImageTransfer.mvFlag":{
-            "type":"boolean",
-            "default":true,
-            "description":"是否将图片剪贴（而非复制）到目标目录"
+    "main": "./extension.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CrazySpottedDove/wsl2ImageTransfer.git"
+    },
+    "contributes": {
+        "commands": [
+            {
+                "command": "wsl2ImageTransfer.transferImage",
+                "title": "Transfer Image"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "wsl2ImageTransfer.transferImage",
+                "key": "Ctrl+Alt+P",
+                "when": "editorTextFocus"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "wsl2ImageTransfer.screenshotDir": {
+                    "type": "string",
+                    "default": "C:/Users/<YourUsername>/Pictures/Screenshots",
+                    "description": "你的 windows 主机的截图保存目录\n默认为 C:/Users/<YourUsername>/Pictures/Screenshots"
+                },
+                "wsl2ImageTransfer.targetDir": {
+                    "type": "string",
+                    "default": "figures/",
+                    "description": "将要黏贴的图片在当前目录中的保存路径\n默认为 figures/"
+                },
+                "wsl2ImageTransfer.insertContent": {
+                    "type": "string",
+                    "default": "\\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.9\\textwidth]{${filePath}}\n\\caption{}\n\\end{figure}",
+                    "description": "将会在你的编辑器中插入的内容\n默认为 \\begin{figure}[H]\n\\centering\n\\includegraphics[width=0.9\\textwidth]{${filePath}}\n\\caption{}\n\\end{figure}"
+                },
+                "wsl2ImageTransfer.mvFlag": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "是否将图片剪贴（而非复制）到目标目录"
+                }
+            }
         }
-      }
+    },
+    "scripts": {
+        "lint": "eslint .",
+        "pretest": "npm run lint",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.9",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.95.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.13.0"
+    },
+    "dependencies": {
+        "chokidar": "^4.0.1",
+        "clipboardy": "^4.0.0"
     }
-  },
-  "scripts": {
-    "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/mocha": "^10.0.9",
-    "@types/node": "20.x",
-    "@types/vscode": "^1.95.0",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1",
-    "eslint": "^9.13.0"
-  },
-  "dependencies": {
-    "chokidar": "^4.0.1",
-    "clipboardy": "^4.0.0"
-  }
 }
