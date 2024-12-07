@@ -3,7 +3,7 @@
     "name": "wsl2ImageTransfer",
     "displayName": "wsl2ImageTransfer",
     "description": "enable image paste from windows to wsl2 in vscode editor",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "engines": {
         "vscode": "^1.95.0"
     },
@@ -38,8 +38,8 @@
             "properties": {
                 "wsl2ImageTransfer.screenshotDir": {
                     "type": "string",
-                    "default": "C:/Users/<YourUsername>/Pictures/Screenshots",
-                    "description": "你的 windows 主机的截图保存目录\n默认为 C:/Users/<YourUsername>/Pictures/Screenshots"
+                    "default": "",
+                    "description": "你的 windows 主机的截图保存目录\n该值一般会由插件自动获取。如果获取失败，可以自行配置。\n示例：C:/Users/<YourUsername>/Pictures/Screenshots"
                 },
                 "wsl2ImageTransfer.targetDir": {
                     "type": "string",
